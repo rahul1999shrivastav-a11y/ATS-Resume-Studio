@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ATS Resume Studio</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eef0ec;--panel:#fff;--ink:#1d2a2f;--mute:#5d6b70;--line:#d6dbd5;--accent:#0f6b5c;--accent-ink:#fff;--ok:#0f6b5c;--warn:#b4620a;--bad:#b3261e;--chip:#e3efe9;--chipw:#fbead3;--desk:#dfe3dc;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#13191b;--panel:#1b2427;--ink:#e7eeeb;--mute:#9aaaa6;--line:#2e3b3e;--accent:#4fc3a8;--accent-ink:#06211b;--ok:#4fc3a8;--warn:#f0a65a;--bad:#ff8a80;--chip:#1f3a34;--chipw:#46321a;--desk:#0e1315;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#13191b;--panel:#1b2427;--ink:#e7eeeb;--mute:#9aaaa6;--line:#2e3b3e;--accent:#4fc3a8;--accent-ink:#06211b;--ok:#4fc3a8;--warn:#f0a65a;--bad:#ff8a80;--chip:#1f3a34;--chipw:#46321a;--desk:#0e1315;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 "Source Sans 3",system-ui,sans-serif}
+h1,h2,h3{font-family:"Bricolage Grotesque",system-ui,sans-serif;margin:0;letter-spacing:-.01em}
+header{padding:20px clamp(16px,4vw,40px) 8px;display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap}
+header h1{font-size:clamp(1.5rem,3.5vw,2.2rem)}
+header p{margin:2px 0 0;color:var(--mute);max-width:56ch}
+.bar{display:flex;gap:8px;flex-wrap:wrap}
+button,select{font:inherit;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:8px 14px;cursor:pointer}
+button.p{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:600}
+button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+main{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;padding:12px clamp(16px,4vw,40px) 40px;align-items:start}
+@media(max-width:960px){main{grid-template-columns:1fr}}
+.tabs{display:flex;gap:4px;margin-bottom:12px}
+.tabs button{flex:1;border-radius:8px;font-weight:600}
+.tabs button[aria-selected=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px;margin-bottom:14px}
+.card h2{font-size:1.1rem;margin-bottom:10px}
+label{display:block;font-size:.85rem;color:var(--mute);margin:10px 0 3px}
+input,textarea{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+textarea{min-height:84px;resize:vertical}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:520px){.g2{grid-template-columns:1fr}}
+.item{border:1px dashed var(--line);border-radius:10px;padding:12px;margin-top:10px}
+.hint{font-size:.85rem;color:var(--mute);margin:4px 0 0}
+.score{display:flex;gap:18px;align-items:center}
+.ring{--p:0;width:104px;height:104px;border-radius:50%;background:conic-gradient(var(--c,var(--ok)) calc(var(--p)*1%),var(--line) 0);display:grid;place-items:center;flex:none}
+.ring b{width:80px;height:80px;border-radius:50%;background:var(--panel);display:grid;place-items:center;font:700 1.7rem "Bricolage Grotesque",sans-serif}
+ul.ck{list-style:none;padding:0;margin:0}
+ul.ck li{display:flex;gap:10px;padding:7px 0;border-bottom:1px solid var(--line)}
+ul.ck li:last-child{border:0}
+.m{flex:none;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:.8rem;font-weight:700;color:#fff}
+.m.y{background:var(--ok)}.m.n{background:var(--bad)}.m.w{background:var(--warn)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{background:var(--chip);border-radius:99px;padding:3px 11px;font-size:.88rem;border:0}
+.chip.w{background:var(--chipw);cursor:pointer}
+.desk{background:var(--desk);border-radius:12px;padding:clamp(10px,2vw,24px);position:sticky;top:8px}
+@media(max-width:960px){.desk{position:static}}
+#resume{background:#fff;color:#111;font:11pt/1.35 Arial,Helvetica,sans-serif;padding:34px 38px;min-height:520px;box-shadow:0 2px 14px rgba(0,0,0,.25);border-radius:2px;overflow-wrap:anywhere}
+#resume h1{font:700 20pt Arial,sans-serif;margin:0}
+#resume .ct{font-size:10pt;margin:2px 0 8px;color:#333}
+#resume h2{font:700 10.5pt Arial,sans-serif;border-bottom:1px solid #111;margin:12px 0 5px;padding-bottom:1px;text-transform:uppercase}
+#resume .r{display:flex;justify-content:space-between;gap:10px;font-weight:700}
+#resume .r span:last-child{font-weight:400;white-space:nowrap}
+#resume ul{margin:3px 0 6px 18px;padding:0}
+#resume p{margin:2px 0}
+.note{font-size:.85rem;color:var(--mute);margin:8px 2px 0}
+.hide{display:none}
+#toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:8px 16px;border-radius:99px;opacity:0;transition:opacity .2s;pointer-events:none}
+#toast.on{opacity:1}
+@media print{body *{visibility:hidden}#resume,#resume *{visibility:visible}#resume{position:absolute;inset:0;box-shadow:none;padding:0.5in}}
+</style>
+</head>
+<body>
+<header>
+ <div><h1>ATS Resume Studio</h1><p>Write once, then tune your resume to a job description or industry. Everything runs in your browser; nothing is uploaded.</p></div>
+ <div class="bar"><button id="sample">Load sample</button><button id="clear">Start fresh</button></div>
+</header>
+<main>
+ <section>
+  <div class="tabs" role="tablist"><button role="tab" aria-selected="true" data-t="build">1. Build</button><button role="tab" aria-selected="false" data-t="opt">2. Optimize</button></div>
+
+  <div id="build">
+   <div class="card"><h2>Contact</h2>
+    <div class="g2"><div><label for="name">Full name</label><input id="name" data-k="name" autocomplete="name"></div><div><label for="title">Target job title</label><input id="title" data-k="title"></div>
+    <div><label for="email">Email</label><input id="email" data-k="email" type="email"></div><div><label for="phone">Phone</label><input id="phone" data-k="phone"></div>
+    <div><label for="loc">City, State/Country</label><input id="loc" data-k="loc"></div><div><label for="link">LinkedIn or portfolio URL</label><input id="link" data-k="link"></div></div>
+   </div>
+   <div class="card"><h2>Professional summary</h2><textarea id="summary" data-k="summary"></textarea><p class="hint">Aim for 30–70 words: role, years of experience, top skills, one proof point.</p></div>
+   <div class="card"><h2>Work experience</h2><div id="exp"></div><button id="addExp" style="margin-top:10px">Add role</button><p class="hint">One bullet per line. Start with a verb, add a number.</p></div>
+   <div class="card"><h2>Education</h2><div id="edu"></div><button id="addEdu" style="margin-top:10px">Add education</button></div>
+   <div class="card"><h2>Skills</h2><textarea id="skills" data-k="skills" style="min-height:64px"></textarea><p class="hint">Comma-separated. Use the exact names tools and skills go by in job postings.</p>
+    <label for="certs">Certifications</label><textarea id="certs" data-k="certs" style="min-height:56px"></textarea><p class="hint">One per line.</p></div>
+  </div>
+
+  <div id="opt" class="hide">
+   <div class="card"><h2>Target</h2>
+    <label for="ind">Industry</label><select id="ind" data-k="ind"></select>
+    <label for="jd">Job description (optional, gives the sharpest match)</label><textarea id="jd" data-k="jd" style="min-height:120px" placeholder="Paste the full job posting here"></textarea></div>
+   <div class="card"><div class="score"><div class="ring" id="ring"><b id="sc">0</b></div><div><h2 style="margin:0">ATS readiness</h2><p class="hint" id="scNote" style="margin:2px 0 0"></p></div></div></div>
+   <div class="card"><h2>Keywords</h2><div id="kwOk" class="chips"></div><h3 style="font-size:.95rem;margin:14px 0 6px">Missing. Tap to add to skills if you truly have it.</h3><div id="kwMiss" class="chips"></div></div>
+   <div class="card"><h2>Recraft</h2><p class="hint" style="margin:0 0 8px">Swaps weak openers like "responsible for" for action verbs and removes first-person words.</p><button class="p" id="fix">Apply wording fixes</button>
+    <h3 style="font-size:.95rem;margin:16px 0 6px">Bullets to strengthen</h3><ul class="ck" id="bul"></ul></div>
+   <div class="card"><h2>Checklist</h2><ul class="ck" id="chk"></ul></div>
+  </div>
+ </section>
+
+ <aside class="desk">
+  <div class="bar" style="margin-bottom:10px"><button class="p" id="print">Print / Save as PDF</button><button id="copy">Copy as plain text</button><button id="theme">Dark / light</button></div>
+  <div id="resume" aria-label="Resume preview"></div>
+  <p class="note">The layout is a single column with standard headings, no tables, icons or images, so parsers read it in order. Save as PDF (text-based), not as an image.</p>
+ </aside>
+</main>
+<div id="toast" role="status"></div>
+<script>
+const IND={
+finance:{l:"Finance & Accounting",kw:["accounts receivable","reconciliation","month-end close","gaap","ifrs","sap","general ledger","variance analysis","audit","compliance","reporting","budgeting","forecasting","excel","collections","reporting accuracy","process improvement","kyc","aml"]},
+tech:{l:"Software & IT",kw:["javascript","python","sql","api","cloud","aws","git","agile","testing","ci/cd","microservices","debugging","scalable","architecture","code review","docker","data structures"]},
+marketing:{l:"Marketing & Content",kw:["seo","campaign","analytics","conversion","content strategy","social media","email marketing","roi","a/b testing","google analytics","brand","lead generation","crm","copywriting"]},
+hr:{l:"HR, Psychology & People",kw:["talent acquisition","onboarding","employee engagement","wellness","stress management","performance management","hris","retention","training","assessment","counseling","policy","recruitment","survey","diversity"]},
+sales:{l:"Sales & Customer Success",kw:["quota","pipeline","crm","salesforce","revenue growth","negotiation","lead generation","account management","upsell","customer retention","churn","forecasting","cold outreach","kpi"]},
+ops:{l:"Operations & Support",kw:["process improvement","sla","kpi","workflow","stakeholder","vendor management","quality assurance","reporting","documentation","escalation","customer satisfaction","cross-functional","lean","training"]}};
+const VERBS="led managed developed built reduced increased improved delivered implemented analyzed streamlined reconciled negotiated launched designed automated coordinated achieved created optimized resolved trained drove executed supported generated audited processed monitored maintained established verified onboarded validated".split(" ");
+const WEAK=[[/^responsible for\s+/i,"Managed "],[/^duties included\s+/i,"Executed "],[/^worked on\s+/i,"Delivered "],[/^helped( to)?\s+/i,"Supported "],[/^handled\s+/i,"Managed "],[/^in charge of\s+/i,"Led "],[/^tasked with\s+/i,"Completed "],[/^assisted with\s+/i,"Supported "]];
+const STOP=new Set("the and for with that this from your you are our will have has not but all can any who their they them use used using into more than other over also able work working team role years year experience strong skills ability including such per its about within across new etc what when where which while would should must may well part both each very".split(" "));
+const EMPTY={name:"",title:"",email:"",phone:"",loc:"",link:"",summary:"",skills:"",certs:"",ind:"finance",jd:"",exp:[{role:"",co:"",dates:"",b:""}],edu:[{deg:"",inst:"",dates:""}]};
+const SAMPLE={name:"Aarav Mehta",title:"Accounts Receivable Executive",email:"aarav@example.com",phone:"+91 90000 00000",loc:"Gurugram, India",link:"linkedin.com/in/aarav-mehta",summary:"Finance professional with 4 years of experience in accounts receivable and customer onboarding. Skilled in reconciliation, collections and SAP. Responsible for keeping receivables accurate across 300+ accounts.",skills:"Accounts Receivable, Reconciliation, SAP FICO, Excel, Collections, Reporting",certs:"NISM AML/CFT Certification",ind:"finance",jd:"",exp:[{role:"Senior Executive, Finance & Accounts",co:"Example Realty Pvt Ltd",dates:"Jul 2026 - Present",b:"Responsible for monthly receivable reconciliation\nHandled collections follow-up for 300 accounts\nCut overdue invoices by 18% in two quarters\nPrepared weekly ageing reports for leadership"},{role:"Customer Support Executive",co:"Example Insurance Ltd",dates:"Jun 2024 - Jun 2026",b:"Verified KYC documents for 40+ customers daily\nHelped resolve onboarding escalations"}],edu:[{deg:"Master of Psychology",inst:"Example University",dates:"2025 - 2027"},{deg:"BBA",inst:"Example University",dates:"2019 - 2022"}]};
+let S;
+try{S=JSON.parse(localStorage.getItem("atsStudio")||"null")}catch(e){S=null}
+S=Object.assign(JSON.parse(JSON.stringify(EMPTY)),S||{});
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const save=()=>{try{localStorage.setItem("atsStudio",JSON.stringify(S))}catch(e){}};
+const toast=t=>{const e=$("#toast");e.textContent=t;e.classList.add("on");setTimeout(()=>e.classList.remove("on"),1800)};
+const bullets=r=>r.b.split("\n").map(x=>x.replace(/^[\s•\-*]+/,"").trim()).filter(Boolean);
+const skillList=()=>S.skills.split(",").map(x=>x.trim()).filter(Boolean);
+
+function fillStatic(){$$("[data-k]").forEach(e=>{if(e.dataset.k in S&&e.tagName!=="SELECT")e.value=S[e.dataset.k]});$("#ind").innerHTML=Object.entries(IND).map(([k,v])=>`<option value="${k}">${v.l}</option>`).join("");$("#ind").value=S.ind}
+function lists(){
+ $("#exp").innerHTML=S.exp.map((r,i)=>`<div class="item"><div class="g2"><div><label>Job title</label><input data-l="exp" data-i="${i}" data-f="role" value="${esc(r.role)}"></div><div><label>Company</label><input data-l="exp" data-i="${i}" data-f="co" value="${esc(r.co)}"></div></div><label>Dates (e.g. Jan 2023 - Present)</label><input data-l="exp" data-i="${i}" data-f="dates" value="${esc(r.dates)}"><label>Achievements, one per line</label><textarea data-l="exp" data-i="${i}" data-f="b">${esc(r.b)}</textarea><button data-rm="exp" data-i="${i}" style="margin-top:8px">Remove role</button></div>`).join("");
+ $("#edu").innerHTML=S.edu.map((r,i)=>`<div class="item"><div class="g2"><div><label>Degree</label><input data-l="edu" data-i="${i}" data-f="deg" value="${esc(r.deg)}"></div><div><label>Institution</label><input data-l="edu" data-i="${i}" data-f="inst" value="${esc(r.inst)}"></div></div><label>Dates</label><input data-l="edu" data-i="${i}" data-f="dates" value="${esc(r.dates)}"><button data-rm="edu" data-i="${i}" style="margin-top:8px">Remove</button></div>`).join("");
+}
+function plain(){
+ const o=[S.name.toUpperCase(),[S.title,S.loc,S.phone,S.email,S.link].filter(Boolean).join(" | ")];
+ if(S.summary.trim())o.push("","PROFESSIONAL SUMMARY",S.summary.trim());
+ const ex=S.exp.filter(r=>r.role||r.co||r.b.trim());
+ if(ex.length){o.push("","WORK EXPERIENCE");ex.forEach(r=>{o.push(`${r.role}${r.co?", "+r.co:""}${r.dates?" ("+r.dates+")":""}`);bullets(r).forEach(b=>o.push("- "+b))})}
+ const ed=S.edu.filter(r=>r.deg||r.inst);
+ if(ed.length){o.push("","EDUCATION");ed.forEach(r=>o.push(`${r.deg}${r.inst?", "+r.inst:""}${r.dates?" ("+r.dates+")":""}`))}
+ if(skillList().length)o.push("","SKILLS",skillList().join(", "));
+ const c=S.certs.split("\n").map(x=>x.trim()).filter(Boolean);
+ if(c.length)o.push("","CERTIFICATIONS",...c.map(x=>"- "+x));
+ return o.join("\n");
+}
+function preview(){
+ const ct=[S.loc,S.phone,S.email,S.link].filter(Boolean).map(esc).join(" | ");
+ let h=`<h1>${esc(S.name)||"Your Name"}</h1><div class="ct">${ct||"City | Phone | Email | LinkedIn"}</div>`;
+ if(S.title)h+=`<p><b>${esc(S.title)}</b></p>`;
+ if(S.summary.trim())h+=`<h2>Professional Summary</h2><p>${esc(S.summary)}</p>`;
+ const ex=S.exp.filter(r=>r.role||r.co||r.b.trim());
+ if(ex.length){h+="<h2>Work Experience</h2>"+ex.map(r=>`<div class="r"><span>${esc(r.role)}${r.co?", "+esc(r.co):""}</span><span>${esc(r.dates)}</span></div><ul>${bullets(r).map(b=>`<li>${esc(b)}</li>`).join("")}</ul>`).join("")}
+ const ed=S.edu.filter(r=>r.deg||r.inst);
+ if(ed.length)h+="<h2>Education</h2>"+ed.map(r=>`<div class="r"><span>${esc(r.deg)}${r.inst?", "+esc(r.inst):""}</span><span>${esc(r.dates)}</span></div>`).join("");
+ if(skillList().length)h+=`<h2>Skills</h2><p>${skillList().map(esc).join(", ")}</p>`;
+ const c=S.certs.split("\n").map(x=>x.trim()).filter(Boolean);
+ if(c.length)h+=`<h2>Certifications</h2><ul>${c.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>`;
+ $("#resume").innerHTML=h;
+}
+function jdKeywords(){
+ const f={};(S.jd.toLowerCase().match(/[a-z][a-z+#./-]{2,}/g)||[]).forEach(w=>{w=w.replace(/[./-]+$/,"");if(w.length>3&&!STOP.has(w))f[w]=(f[w]||0)+1});
+ return Object.entries(f).sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0])).slice(0,22).map(x=>x[0]);
+}
+function analyze(){
+ const txt=plain().toLowerCase(),words=txt.split(/\s+/).filter(Boolean).length;
+ const kws=S.jd.trim().length>40?jdKeywords():IND[S.ind].kw;
+ const hit=kws.filter(k=>txt.includes(k)),miss=kws.filter(k=>!txt.includes(k));
+ $("#kwOk").innerHTML=hit.map(k=>`<span class="chip">${esc(k)}</span>`).join("")||'<span class="hint">None yet.</span>';
+ $("#kwMiss").innerHTML=miss.map(k=>`<button class="chip w" data-add="${esc(k)}">+ ${esc(k)}</button>`).join("")||'<span class="hint">Nothing missing. Nice.</span>';
+ const all=S.exp.flatMap(bullets),n=all.length||1;
+ const strong=all.filter(b=>{const w=b.split(/\s+/)[0].toLowerCase();return VERBS.includes(w)||(/ed$/.test(w)&&!WEAK.some(x=>x[0].test(b)))}).length;
+ const nums=all.filter(b=>/\d/.test(b)).length,long=all.filter(b=>b.split(/\s+/).length>28).length;
+ const weakAny=all.filter(b=>WEAK.some(x=>x[0].test(b))||/\b(i|my|me)\b/i.test(b)).length+(/\b(responsible for|i am|my)\b/i.test(S.summary)?1:0);
+ const sw=S.summary.trim().split(/\s+/).filter(Boolean).length,kr=hit.length/Math.max(kws.length,1);
+ const C=[
+ [15,/^\S+@\S+\.\S+$/.test(S.email.trim())&&S.phone.trim().length>=7&&S.name.trim(),"Name, email and phone are present","Add a name, valid email and phone number at the top"],
+ [10,sw>=25&&sw<=80,`Summary length is good (${sw} words)`,`Summary should be 25–80 words (now ${sw})`],
+ [10,S.exp.some(r=>bullets(r).length>=2),"Experience has 2+ bullets per role","Add at least 2 achievement bullets under a role"],
+ [8,S.edu.some(r=>r.deg)&&skillList().length>=6,"Education and 6+ skills listed","List education and at least 6 skills"],
+ [15,strong/n>=.8,"Bullets open with action verbs",`Only ${strong} of ${all.length} bullets open with an action verb`],
+ [15,nums/n>=.5,"Half or more bullets carry numbers",`Only ${nums} of ${all.length} bullets have a number, %, or amount`],
+ [7,long===0&&weakAny===0,"No long bullets, weak phrases or first-person words",`${long} bullet(s) over 28 words, ${weakAny} weak phrase or "I/my" use`],
+ [10,kr>=.6,`Keyword match is ${Math.round(kr*100)}%`,`Keyword match is ${Math.round(kr*100)}%. Aim for 60% or more`],
+ [5,words>=250&&words<=800,`Length suits 1–2 pages (${words} words)`,`Length is ${words} words. Aim for 250–800`],
+ [5,true,"Single column, standard headings, no tables or images",""]];
+ const tot=C.reduce((a,c)=>a+c[0],0),got=C.reduce((a,c)=>a+(c[1]?c[0]:0),0),sc=Math.round(got/tot*100);
+ const r=$("#ring");r.style.setProperty("--p",sc);r.style.setProperty("--c",sc>=80?"var(--ok)":sc>=55?"var(--warn)":"var(--bad)");$("#sc").textContent=sc;
+ $("#scNote").textContent=sc>=80?"Strong. Tailor the keywords to each job.":sc>=55?"Decent. Fix the red items below.":"Needs work. Start with the red items below.";
+ $("#chk").innerHTML=C.map(c=>`<li><span class="m ${c[1]?"y":"n"}">${c[1]?"✓":"!"}</span><span>${esc(c[1]?c[2]:c[3])}</span></li>`).join("");
+ const bad=[];S.exp.forEach(r=>bullets(r).forEach(b=>{const t=[];const w=b.split(/\s+/)[0].toLowerCase();
+  if(WEAK.some(x=>x[0].test(b)))t.push("opens with a weak phrase");else if(!VERBS.includes(w)&&!/ed$/.test(w))t.push("start with an action verb");
+  if(!/\d/.test(b))t.push("add a number (%, amount, volume, time)");if(b.split(/\s+/).length>28)t.push("shorten to under 28 words");
+  if(t.length)bad.push(`<li><span class="m w">!</span><span><b>${esc(b)}</b><br><span class="hint">${esc(t.join("; "))}</span></span></li>`)}));
+ $("#bul").innerHTML=bad.join("")||'<li><span class="m y">✓</span><span>All bullets look strong.</span></li>';
+}
+const refresh=()=>{save();preview();analyze()};
+document.addEventListener("input",e=>{const t=e.target;if(t.dataset.k){S[t.dataset.k]=t.value}else if(t.dataset.l){S[t.dataset.l][+t.dataset.i][t.dataset.f]=t.value}else return;refresh()});
+document.addEventListener("click",e=>{const t=e.target.closest("button");if(!t)return;
+ if(t.dataset.t){$$(".tabs button").forEach(b=>b.setAttribute("aria-selected",b===t));$("#build").classList.toggle("hide",t.dataset.t!=="build");$("#opt").classList.toggle("hide",t.dataset.t!=="opt")}
+ if(t.dataset.rm){S[t.dataset.rm].splice(+t.dataset.i,1);if(!S[t.dataset.rm].length)S[t.dataset.rm].push(t.dataset.rm==="exp"?{role:"",co:"",dates:"",b:""}:{deg:"",inst:"",dates:""});lists();refresh()}
+ if(t.dataset.add){S.skills=(S.skills.trim()?S.skills.trim().replace(/,$/,"")+", ":"")+t.dataset.add;$("#skills").value=S.skills;refresh()}
+});
+$("#ind").onchange=e=>{S.ind=e.target.value;refresh()};
+$("#addExp").onclick=()=>{S.exp.push({role:"",co:"",dates:"",b:""});lists();save()};
+$("#addEdu").onclick=()=>{S.edu.push({deg:"",inst:"",dates:""});lists();save()};
+$("#sample").onclick=()=>{S=JSON.parse(JSON.stringify(SAMPLE));fillStatic();lists();refresh();toast("Sample loaded")};
+$("#clear").onclick=()=>{S=JSON.parse(JSON.stringify(EMPTY));fillStatic();lists();refresh();toast("Cleared")};
+$("#fix").onclick=()=>{let c=0;S.exp.forEach(r=>{r.b=r.b.split("\n").map(l=>{let s=l.replace(/^[\s•\-*]+/,"");WEAK.forEach(([re,v])=>{if(re.test(s)){s=s.replace(re,v);c++}});return s.replace(/\b(I|my)\s+/gi,m=>{c++;return ""}).replace(/^./,x=>x.toUpperCase())}).join("\n")});
+ S.summary=S.summary.replace(/\bResponsible for\b/g,"Accountable for").replace(/\b(I am|I'm)\b\s*/g,()=>{c++;return ""});lists();$("#summary").value=S.summary;refresh();toast(c?c+" fix(es) applied":"Nothing to fix")};
+$("#print").onclick=()=>{try{window.print()}catch(e){toast("Use your browser's Print menu")}};
+$("#copy").onclick=async()=>{try{await navigator.clipboard.writeText(plain());toast("Copied")}catch(e){toast("Copy blocked: select the preview text instead")}};
+$("#theme").onclick=()=>{const d=document.documentElement,dark=matchMedia("(prefers-color-scheme:dark)").matches;const cur=d.dataset.theme||(dark?"dark":"light");d.dataset.theme=cur==="dark"?"light":"dark"};
+fillStatic();lists();preview();analyze();
+</script>
+</body>
+</html>
